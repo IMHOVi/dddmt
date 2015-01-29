@@ -1,0 +1,121 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ru.imho.tools.dddmt</groupId>
+	<artifactId>dddmt-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>DddmtParent</name>
+	<description>DDDMT parent POM</description>
+
+	<properties>
+		<osgi.required.execution.env>JavaSE-1.7</osgi.required.execution.env>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<scala.version>2.10.3</scala.version>
+        <slf4j.version>1.7.2</slf4j.version>
+		<scalatest.version>2.0</scalatest.version>
+	</properties>
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Needed even if no java code present - just to set execution environment -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.scala-tools</groupId>
+					<artifactId>maven-scala-plugin</artifactId>
+					<version>2.15.2</version>
+					<configuration>
+						<scalaVersion>${scala.version}</scalaVersion>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<!-- goal>add-source</goal -->
+								<goal>compile</goal>
+								<goal>testCompile</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- disable surefire -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.7</version>
+					<configuration>
+						<skipTests>true</skipTests>
+					</configuration>
+				</plugin>
+
+				<!-- enable scalatest -->
+				<plugin>
+					<groupId>org.scalatest</groupId>
+					<artifactId>scalatest-maven-plugin</artifactId>
+					<version>1.0</version>
+					<configuration>
+						<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+						<junitxml>.</junitxml>
+						<filereports>WDF TestSuite.txt</filereports>
+					</configuration>
+					<executions>
+						<execution>
+							<id>test</id>
+							<goals>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Config -->
+			<dependency>
+			    <groupId>com.typesafe</groupId>
+			    <artifactId>config</artifactId>
+			    <version>1.2.0</version>
+			</dependency>
+
+			<!-- Logging -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+	        <dependency>
+	            <groupId>org.slf4j</groupId>
+	            <artifactId>slf4j-log4j12</artifactId>
+	            <version>${slf4j.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>log4j</groupId>
+	            <artifactId>log4j</artifactId>
+	            <version>1.2.17</version>
+	        </dependency>
+
+			<dependency>
+				<groupId>org.scalatest</groupId>
+				<artifactId>scalatest_2.10</artifactId>
+				<version>${scalatest.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<modules>
+		<module>dddmt-engine</module>
+	</modules>
+</project>
