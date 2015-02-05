@@ -1,4 +1,4 @@
-package ru.imho.dddmt
+package ru.imho.dddmt.core
 
 import java.net.URI
 
@@ -9,6 +9,14 @@ import java.net.URI
  *
  */
 object Base {
+  
+  /**
+   * Something IDentifiable, with ID immutable
+   */
+  
+  trait Identifiable {
+    val id: String
+  }
   
   /**
    * Time period (range) where to generate all parameters 
@@ -37,7 +45,7 @@ object Base {
   /**
    * For example: HdfsFile, HdfsFolder, FtpFile, Bin
    */
-  trait NodeTechnology { 
+  trait NodeTechnology extends Identifiable { 
     def newNodeStateResolver(nst: NodeStateType): URINodeStateResolver
     
     def newNodeStateAggregateResolver(nst: NodeStateType): URINodeStateAResolver
@@ -46,8 +54,7 @@ object Base {
   /**
    * For example: Null, Day, Hour
    */
-  trait ParameterType {
-    val id: String
+  trait ParameterType extends Identifiable {
     /**
      * Gets a stream of parameter values for the entire (closed) period 
      */
@@ -68,6 +75,8 @@ object Base {
      * Conformance is: a) reflexive (a value conforms to itself) and b) transitive
      */
     def conformsTo(other: ParameterValue): Boolean
+    
+    def <=(other: ParameterValue) = parameterValueOrdering.lteq(this, other)
   }
   
   implicit val parameterValueOrdering: Ordering[ParameterValue] = 
@@ -79,8 +88,7 @@ object Base {
    * and backing technology.  
    * For example: DailyHdfsFolder, HourlyHdfsFile
    */
-  trait NodeSpace {
-    val id: String
+  trait NodeSpace extends Identifiable {
     val parameterType: ParameterType
     val nodeTechnology: NodeTechnology
     def uri(parameterValue: ParameterValue): URI
@@ -100,8 +108,7 @@ object Base {
     
     def nodeStream(p: Period): Stream[Node] = parameterType.getValues(p).map(nodeOf)
     
-    override def toString = "nodespace:" + id
-  }
+   }
   
   abstract class AbstractNodeSpace(val id: String, val parameterType: ParameterType, val nodeTechnology: NodeTechnology)
     extends NodeSpace 	
@@ -183,7 +190,7 @@ object Base {
   /**
    * Node state metatype
    */
-  trait NodeStateType extends ObsolescenceDetectionPolicy {
+  trait NodeStateType extends Identifiable with ObsolescenceDetectionPolicy {
     type ThisNodeState <: NodeState
     type ThisNodeStateA <: NodeStateA
     def aggregate(nprec: List[ThisNodeState]): ThisNodeStateA
@@ -197,11 +204,9 @@ object Base {
           if(needsRebuilding(nsacur.asInstanceOf[ThisNodeStateA], nsaact)) (nsaact, true) else (nsaact, false)
         case None => 
           (nsaact, true)
-      }      
-      
+      }            
     }
   }
-  
   
 
 }

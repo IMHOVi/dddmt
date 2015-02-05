@@ -1,4 +1,4 @@
-package ru.imho.dddmt
+package ru.imho.dddmt.core
 
 import Base._
 import scala.annotation.tailrec
@@ -7,6 +7,8 @@ import scalax.collection.GraphPredef._
 import scalax.collection.GraphEdge._
 import scalax.collection.edge._
 import scalax.collection.io.dot._
+import scala.Option.option2Iterable
+import scala.collection.immutable.Stream.consWrapper
 
 
 /**

@@ -1,4 +1,4 @@
-package ru.imho.dddmt
+package ru.imho.dddmt.core
 
 
 import Base._
@@ -82,6 +82,7 @@ object DGraphTest {
   }
   
   object MTime extends LongNodeStateType {
+    val id = "mtime"
     /**
      * Aggregate's value is that of most recent of the predecessors
      */
