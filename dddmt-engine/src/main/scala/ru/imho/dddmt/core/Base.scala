@@ -194,17 +194,12 @@ object Base {
     type ThisNodeState <: NodeState
     type ThisNodeStateA <: NodeStateA
     def aggregate(nprec: List[ThisNodeState]): ThisNodeStateA
-    def needsRebuilding(n: ThisNodeStateA, nsaprec: ThisNodeStateA): Boolean
+    def needsRebuilding(n: Option[ThisNodeStateA], nsaprec: ThisNodeStateA): Boolean
     
     def getActualNodeState(nsa: Option[NodeStateA], nsprec: List[NodeState]): (NodeStateA, Boolean) = {
       val nsaact = aggregate { nsprec map (_.asInstanceOf[ThisNodeState]) }
-      
-      nsa match {
-        case Some(nsacur) =>  
-          if(needsRebuilding(nsacur.asInstanceOf[ThisNodeStateA], nsaact)) (nsaact, true) else (nsaact, false)
-        case None => 
-          (nsaact, true)
-      }            
+
+      (nsaact, needsRebuilding(nsa.map(_.asInstanceOf[ThisNodeStateA]), nsaact))      
     }
   }
   

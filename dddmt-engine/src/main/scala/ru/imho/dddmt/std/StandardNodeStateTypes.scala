@@ -17,12 +17,13 @@ object StandardNodeStateTypes {
      */
     def aggregate(nprec: List[ThisNodeState]): ThisNodeStateA = 
       LongNodeStateA(nprec.map(_.value).max)
-    def needsRebuilding(n: ThisNodeStateA, nsaprec: ThisNodeStateA): Boolean =
-      nsaprec.value > n.value
+    def needsRebuilding(n: Option[ThisNodeStateA], nsaprec: ThisNodeStateA): Boolean =
+      nsaprec.value > n.getOrElse(nonexistentA).value
       
     def fromLongTime(tm: Long) = new ThisNodeState(tm)
     def fromLongTimeA(tm: Long) = new ThisNodeStateA(tm)
     val nonexistent = new ThisNodeState(0)    
+    val nonexistentA = new ThisNodeStateA(0)    
   }
   
   object MTime extends FTime {

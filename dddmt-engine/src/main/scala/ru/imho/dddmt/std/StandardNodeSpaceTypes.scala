@@ -8,10 +8,12 @@ object StandardNodeSpaceTypes {
   
   object GenericFileSet extends NodeSpaceType {
     val id = "fileSet"
-    def newInstance(config: Configuration, 
+    def newInstance(
+        iid: String,
+        config: Configuration, 
         technology: NodeTechnology,
         parameter: ParameterType): NodeSpace = new NodeSpace {
-      val id = config.getString("id")
+      val id = iid
       val parameterType = parameter
       val nodeTechnology = technology
       
@@ -20,6 +22,8 @@ object StandardNodeSpaceTypes {
 
       def uri(parameterValue: ParameterValue): URI =
         new URI(id, expander(parameterValue), null)
+      
+      override def toString = s"${GenericFileSet.id}:${id}"
     }
       
   }

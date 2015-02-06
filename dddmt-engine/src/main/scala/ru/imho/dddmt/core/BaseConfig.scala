@@ -20,7 +20,9 @@ object BaseConfig {
   }
   
   trait NodeSpaceType extends Identifiable {
-    def newInstance(config: Configuration, 
+    def newInstance(
+        id: String,
+        config: Configuration, 
         technology: NodeTechnology, 
         parameter: ParameterType): NodeSpace
   }
@@ -34,6 +36,16 @@ object BaseConfig {
     def compileTemplate(template: String) = 
       TemplateSupport.simpleTemplateExpander(template, templateParameterExtractors)
   }
+  
+  
+  trait ConfigUniverse {
+    val parameterTypes: Map[String, ParameterType]
+    val nodeTechnologyTypes: Map[String, NodeTechnologyType]
+    val nodeStateTypes: Map[String, NodeStateType]
+    val nodeSpaceTypes: Map[String, NodeSpaceType]
+    val nsDeps: NSDepMap
+  }
+  
   
 
 

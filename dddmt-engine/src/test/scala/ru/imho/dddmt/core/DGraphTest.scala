@@ -67,7 +67,7 @@ class DGraphTest extends FlatSpec with MockFactory  {
         u => Some(LongNodeStateA(10)))
     assertResult(1)(r.size)   
     assertResult(
-        "List((Node(nodespace:nsftp,LongParameterValue(3)),Map(nodespace:nsftp -> LongNodeStateA(11))))")(
+        "List((Node(nodespace:nslogs,LongParameterValue(3)),Map(nodespace:nsftp -> LongNodeStateA(11))))")(
          r.toString)
   } 
 }
@@ -88,8 +88,10 @@ object DGraphTest {
      */
     def aggregate(nprec: List[ThisNodeState]): ThisNodeStateA = 
       LongNodeStateA(nprec.map(_.value).max)
-    def needsRebuilding(n: ThisNodeStateA, nsaprec: ThisNodeStateA): Boolean =
-      nsaprec.value > n.value    
+    def needsRebuilding(n: Option[ThisNodeStateA], nsaprec: ThisNodeStateA): Boolean =
+      nsaprec.value > n.getOrElse(nonexistentA).value    
+      
+    val nonexistentA = new ThisNodeStateA(0)
   }
 
   object LongParameterType extends ParameterType {
@@ -110,6 +112,7 @@ object DGraphTest {
   	AbstractNodeSpace("nsftp", LongParameterType, ntech) {
       def uri(parameterValue: ParameterValue): URI = 
         new URI("long", parameterValue.asInstanceOf[LongParameterValue].value.toString, null)
+      override def toString = s"nodespace:$id"
     }
   
   
