@@ -19,8 +19,12 @@ object Main {
         YMDHParameterType.fromString(args(0)), 
         YMDHParameterType.fromString(args(1)))
     val u = UniverseBuilder.buildUniverse(None)
+    
+    DGraph.validateNSDepMap(u.nsDeps)
+    
     val dg = new DGraph(period, u.nsDeps, new DefaultWeavingPolicy(u.nsDeps))
  
+    //println(dg.dot)
     val outdated = dg.newSession.leftUpTraverser.collect
     println(outdated)
   }

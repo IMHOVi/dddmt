@@ -3,20 +3,26 @@ package ru.imho.dddmt.std
 import ru.imho.dddmt.core.Base._
 
 object StandardNodeStateTypes {
-  case class LongNodeState(val value: Long) extends NodeState
-  case class LongNodeStateA(val value: Long) extends NodeStateA
+
+  val timeFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
   
-  abstract class LongNodeStateType extends NodeStateType {
-    type ThisNodeState = LongNodeState
-    type ThisNodeStateA = LongNodeStateA
-  }
+  case class MsTimeNodeState(val value: Long) extends NodeState {
+    override def toString = "msTime:" + timeFormat.format(new java.util.Date(value))
+    }
+  case class MsTimeNodeStateA(val value: Long) extends NodeStateA {
+    override def toString = "msTimeA:" + timeFormat.format(new java.util.Date(value))
+    }
   
-  trait FTime extends LongNodeStateType {
+  trait FTime extends NodeStateType {
+    
+    type ThisNodeState = MsTimeNodeState
+    type ThisNodeStateA = MsTimeNodeStateA
+    
     /**
      * Aggregate's value is that of most recent of the predecessors
      */
     def aggregate(nprec: List[ThisNodeState]): ThisNodeStateA = 
-      LongNodeStateA(nprec.map(_.value).max)
+      MsTimeNodeStateA(nprec.map(_.value).max)
     def needsRebuilding(n: Option[ThisNodeStateA], nsaprec: ThisNodeStateA): Boolean =
       nsaprec.value > n.getOrElse(nonexistentA).value
       

@@ -83,6 +83,18 @@
 	</build>
 	<dependencyManagement>
 		<dependencies>
+			<!-- Own modules -->
+			<dependency>
+			    <groupId>ru.imho.tools.dddmt</groupId>
+			    <artifactId>dddmt-engine</artifactId>
+			    <version>${project.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>ru.imho.tools.dddmt</groupId>
+			    <artifactId>dddmt-sftp-jsch</artifactId>
+			    <version>${project.version}</version>
+			</dependency>
+			
 			<!-- Config -->
 			<dependency>
 			    <groupId>com.typesafe</groupId>
@@ -117,5 +129,6 @@
 	</dependencyManagement>
 	<modules>
 		<module>dddmt-engine</module>
+		<module>dddmt-sftp-jsch</module>
 	</modules>
 </project>

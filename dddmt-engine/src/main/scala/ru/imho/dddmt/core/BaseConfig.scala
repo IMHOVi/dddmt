@@ -9,6 +9,8 @@ object BaseConfig {
    */
   trait Configuration {
     def getString(path: String): String
+    def optString(path: String): Option[String]
+    def optInt(path: String): Option[Int]
     def getInt(path: String): Int
     def getStringList(path: String): List[String]
     def getConfig(path: String): Configuration
