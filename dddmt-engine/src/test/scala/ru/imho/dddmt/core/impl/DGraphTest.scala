@@ -1,14 +1,17 @@
-package ru.imho.dddmt.core
+package ru.imho.dddmt.core.impl
 
 
-import Base._
+import ru.imho.dddmt.core.Base._
 import DGraph._
+
 import org.scalatest.FlatSpec
 import org.scalamock.scalatest.MockFactory
+
 import java.net.URI
 
 class DGraphTest extends FlatSpec with MockFactory  { 
-  import DGraphTest._
+
+	import DGraphTest._
     
   "DGraph" should "Build ftp -> hdfs graph" in {
     val period = stub[Period]         

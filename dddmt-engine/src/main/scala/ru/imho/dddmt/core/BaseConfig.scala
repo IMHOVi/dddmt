@@ -1,6 +1,7 @@
 package ru.imho.dddmt.core
 
 import Base._
+import BaseExec._
 import ru.imho.dddmt.core.util.TemplateSupport
 
 object BaseConfig {
@@ -46,6 +47,7 @@ object BaseConfig {
     val nodeStateTypes: Map[String, NodeStateType]
     val nodeSpaceTypes: Map[String, NodeSpaceType]
     val nsDeps: NSDepMap
+    val jobFactories: Map[String, JobFactory]
   }
   
   

@@ -97,6 +97,12 @@
 			<version>2.3.7</version>
 		</dependency>
 
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>		
+		
 		<!-- Cron parser -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.quartz-scheduler</groupId> -->

@@ -5,6 +5,7 @@ import ru.imho.dddmt.std._
 import BaseConfig._
 import RichConfig._
 import Base._
+import BaseExec._
 import com.typesafe.config.ConfigObject
 
 object UniverseBuilder {
@@ -50,6 +51,8 @@ object UniverseBuilder {
     
     val nsDeps = for((_, (ns, deps)) <- nodespaces; (dep, deptype) <- deps) 
       yield (ns, nodespaces(dep)._1) ->  DepAttr(nodeStateTypes(deptype))
+      
+    val jobFactories: Map[String, JobFactory] = Map()
   }
 
 }

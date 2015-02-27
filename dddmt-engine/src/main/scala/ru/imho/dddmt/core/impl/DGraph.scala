@@ -1,6 +1,6 @@
-package ru.imho.dddmt.core
+package ru.imho.dddmt.core.impl
 
-import Base._
+import ru.imho.dddmt.core.Base._
 import scala.annotation.tailrec
 import scalax.collection.Graph
 import scalax.collection.GraphPredef._
